@@ -1,0 +1,3 @@
+npx create-react-app blog-system --template typescript
+cd blog-system
+npm install @reduxjs/toolkit react-redux react-router-dom antd @ant-design/icons axios 

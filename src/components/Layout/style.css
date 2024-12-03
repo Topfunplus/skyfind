@@ -1,0 +1,128 @@
+.layout {
+  min-height: 100vh;
+  background: #ffffff;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(5px);
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.logo-container {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+
+.logo {
+  color: #222222;
+  font-size: 22px;
+  font-weight: 600;
+  text-decoration: none;
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: color 0.2s ease;
+}
+
+.logo:hover {
+  color: #1677ff;
+}
+
+.menu {
+  flex: 1;
+  min-width: 0;
+  border-bottom: none;
+  justify-content: flex-end;
+  background: transparent;
+  font-size: 15px;
+}
+
+.menu :global(.ant-menu-item) {
+  color: #333333;
+  padding: 0 16px;
+}
+
+.menu :global(.ant-menu-item:hover) {
+  color: #1677ff !important;
+}
+
+.menu :global(.ant-menu-item-selected) {
+  color: #1677ff !important;
+}
+
+.site-content {
+  padding: 24px;
+  margin-top: 64px;
+  min-height: calc(100vh - 64px - 70px);
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.site-content-wrapper {
+  background: transparent;
+  margin-top: 24px;
+}
+
+.footer {
+  text-align: center;
+  padding: 24px;
+  color: #666;
+  background: transparent;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .header {
+    padding: 0 16px;
+  }
+
+  .site-content {
+    padding: 16px;
+  }
+
+  .site-content-wrapper {
+    margin-top: 16px;
+  }
+
+  .footer {
+    padding: 16px;
+  }
+}
+
+/* 美化滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d9d9d9;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #bfbfbf;
+}
+
+.login-btn {
+  margin-left: 16px;
+  font-size: 15px;
+  color: #666;
+}
+
+.login-btn:hover {
+  color: #1677ff !important;
+} 
