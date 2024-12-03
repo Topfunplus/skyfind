@@ -10,6 +10,7 @@ import {
     Register,
     UserProfile,
 } from '../pages/index'
+import {Chat} from "../pages/Chat";
 
 const AppRoutes: React.FC = () => {
     return (
@@ -18,6 +19,7 @@ const AppRoutes: React.FC = () => {
                 <Route path="/" element={<Layout/>}>
                     <Route index element={<Home/>}/>
                     <Route path="login" element={<Login/>}/>
+                    <Route path="chat" element={<Chat/>}/>
                     <Route path="register" element={<Register/>}/>
                     <Route path="posts/:id" element={<PostDetail/>}/>
                     <Route path="profile" element={<UserProfile/>}/>

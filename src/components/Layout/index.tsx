@@ -10,6 +10,8 @@ const {Header, Content, Footer} = AntLayout;
 
 const Layout: React.FC = () => {
     const {user} = useAppSelector((state: RootState) => state.auth);
+
+    console.log('用户:', user)
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -19,6 +21,10 @@ const Layout: React.FC = () => {
         {
             key: 'home',
             label: <Link to="/">首页</Link>,
+        },
+        {
+            key: 'chat',
+            label: <Link to="/chat">聊天</Link>,
         },
         ...(user
             ? [
