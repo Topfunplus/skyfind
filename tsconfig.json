@@ -113,5 +113,8 @@
     "skipLibCheck": true,
     /* Skip type checking all .d.ts files. */
     "jsx": "react"
-  }
+  },
+  "exclude": [
+    "src/components/icons"
+  ]
 }

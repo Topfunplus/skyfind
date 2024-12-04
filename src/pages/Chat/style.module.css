@@ -14,7 +14,7 @@
 }
 
 .messages {
-    height: 500px;
+    height: 400px;
     overflow-y: scroll;
     margin-bottom: 20px;
     padding-right: 10px;
@@ -62,13 +62,24 @@
     background-color: #0056b3;
 }
 
+.selectButton {
+    border-radius: 10px;
+    border: none;
+    padding: 5px;
+    font-weight: bold;
+    background: #47d148;
+    color: white;
+    cursor: pointer;
+}
 
 .modelSelector {
     margin-bottom: 20px;
 }
 
 .modelButton {
-    padding: 10px 15px;
+    font-weight: bold;
+    margin: 0 10px;
+    padding: 5px 5px;
     font-size: 16px;
     background-color: #008CBA;
     color: white;
@@ -127,4 +138,9 @@
 
 .useButton:hover {
     background-color: #007B9A;
+}
+
+.currentUrl {
+    color: #007bff;
+    font-weight: bold;
 }
