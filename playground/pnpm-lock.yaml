@@ -1,0 +1,23 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      chalk:
+        specifier: ^5.4.0
+        version: 5.4.0
+
+packages:
+
+  chalk@5.4.0:
+    resolution: {integrity: sha512-ZkD35Mx92acjB2yNJgziGqT9oKHEOxjTBTDRpOsRWtdecL/0jM3z5kM/CTzHWvHIen1GvkM85p6TuFfDGfc8/Q==}
+    engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+
+snapshots:
+
+  chalk@5.4.0: {}
