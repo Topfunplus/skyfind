@@ -26,8 +26,10 @@
   color: #222222;
   font-size: 22px;
   font-weight: 600;
+  line-height: 35px;
   text-decoration: none;
-  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, 'Helvetica Neue', Arial, sans-serif;
   transition: color 0.2s ease;
 }
 
@@ -61,9 +63,12 @@
   padding: 24px;
   margin-top: 64px;
   min-height: calc(100vh - 64px - 70px);
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  /* 这行代码设置元素的最大宽度为 1000 像素。即使父容器的宽度超过 1000 像素，元素的宽度也不会超过 1000 像素。 */
+  /* max-width: 1000px; */
+  /* 这行代码将元素的左外边距设置为自动。结合 margin-right: auto;，可以将元素水平居中。 */
+  /* margin-left: auto; */
+  /* 这行代码将元素的右外边距设置为自动。结合 margin-left: auto;，可以将元素水平居中。 */
+  /* margin-right: auto; */
 }
 
 .site-content-wrapper {
@@ -72,10 +77,14 @@
 }
 
 .footer {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  left: 0;
   text-align: center;
-  padding: 24px;
+  padding: 12px;
   color: #666;
-  background: transparent;
+  background: white;
   border-top: 1px solid #f0f0f0;
 }
 
@@ -95,6 +104,7 @@
 
   .footer {
     padding: 16px;
+    display: none;
   }
 }
 
@@ -125,4 +135,4 @@
 
 .login-btn:hover {
   color: #1677ff !important;
-} 
+}

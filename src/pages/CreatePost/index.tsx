@@ -1,5 +1,4 @@
 import { Button, Form, Input, Typography, message } from 'antd'
-import { convertToHTML } from 'draft-convert'
 import { EditorState, convertToRaw } from 'draft-js'
 import React, { useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
@@ -23,8 +22,9 @@ const CreatePost: React.FC = () => {
 
   // 将 EditorState 转换为 HTML 或纯文本
   const convertEditorStateToContent = () => {
-    const rawContent = convertToRaw(editorState.getCurrentContent())
-    console.log(convertToHTML(editorState.getCurrentContent()))
+    const rawContent = convertToRaw(editorState.getCurrentContent().content)
+    // console.log(rawContent)
+    // console.log(convertToHTML(editorState.getCurrentContent()))
     return JSON.stringify(rawContent) // 返回原始内容
   }
 
@@ -40,8 +40,12 @@ const CreatePost: React.FC = () => {
 
   const searchEmoji = (value: any) => {
     console.log(value)
+
+    console.log(editorState.getCurrentContent())
     // const newContentValue = editorState.getCurrentContent().content
-    setEditorState(convertToRaw(editorState.getCurrentContent()))
+    // setEditorState(
+    //   convertToRaw(editorState.getCurrentContent().content + value.native)
+    // )
   }
 
   return (

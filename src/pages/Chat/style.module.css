@@ -1,146 +1,223 @@
 .loading {
-    font-style: italic;
-    color: gray;
+  font-style: italic;
+  color: gray;
 }
 
 .chatContainer {
-    width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    background-color: #f9f9f9;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  background-color: #fffdfd;
 }
 
-.messages {
-    height: 400px;
-    overflow-y: scroll;
-    margin-bottom: 20px;
-    padding-right: 10px;
-}
+/* 底部版权消失 输入框变为吸底效果 */
 
-.userMessage {
-    text-align: left;
-    background-color: #e0f7fa;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
+/*
+    当屏幕宽度小于 768 像素时，将聊天容器的宽度设置为 86%，最大高度设置为 900 像素。
+*/
+@media screen and (max-width: 768px) {
+  .chatContainer {
+    width: 86%;
+    max-height: 900px;
+  }
+  .inputContainer {
+    position: fixed;
+    padding-left: 43px;
+    padding-right: 43px;
+    padding: 6px;
+    bottom: 0;
+    width: 100%;
+    left: 0;
+    border-top: 1px solid #ccc;
+  }
 
-.assistantMessage {
-    text-align: left;
-    background-color: #f1f8e9;
-    padding: 8px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-}
-
-.inputContainer {
-    display: flex;
-    justify-content: space-between;
-}
-
-.input {
+  .input {
     width: 80%;
     padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-}
+    border: none;
+    transition: all 0.2s ease-in-out;
+  }
 
-.sendButton {
-    width: 15%;
+  .input:active,
+  .input:focus {
+    font-size: large;
+    width: 80%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    /*
+    适应chrome浏览器
+    */
+    outline: none;
+  }
+
+  .sendButton {
+    width: 20%;
     padding: 10px;
     border-radius: 5px;
     background-color: #007bff;
     color: white;
     border: none;
     cursor: pointer;
+  }
+
+  .sendButton:hover {
+    background-color: #0056b3;
+  }
 }
 
-.sendButton:hover {
+.messages {
+  height: 400px;
+  overflow-y: scroll;
+  margin-bottom: 20px;
+  padding-right: 10px;
+}
+
+.userMessage {
+  text-align: left;
+  background-color: #e0f7fa;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.assistantMessage {
+  text-align: left;
+  background-color: #f1f8e9;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.inputContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+}
+
+/*
+    发送按钮的样式
+*/
+@media screen and (min-width: 768px) {
+  .input {
+    width: 28%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #bec2c7;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .input:active,
+  .input:focus {
+    font-size: large;
+    width: 30%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #007bff;
+    /*
+        适应chrome浏览器
+        */
+    outline: none;
+  }
+
+  .sendButton {
+    width: 5%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .sendButton:hover {
     background-color: #0056b3;
+  }
 }
 
 .selectButton {
-    border-radius: 10px;
-    border: none;
-    padding: 5px;
-    font-weight: bold;
-    background: #47d148;
-    color: white;
-    cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  padding: 5px;
+  font-weight: bold;
+  background: #47d148;
+  color: white;
+  cursor: pointer;
 }
 
 .modelSelector {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .modelButton {
-    font-weight: bold;
-    margin: 0 10px;
-    padding: 5px 5px;
-    font-size: 16px;
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  font-weight: bold;
+  margin: 0 10px;
+  padding: 5px 5px;
+  font-size: 16px;
+  background-color: #008cba;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .modelButton:hover {
-    background-color: #007B9A;
+  background-color: #007b9a;
 }
 
 .modelList {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
 }
 
 .modelItem {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    border: 1px solid #ddd;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
 }
 
 .modelItem span {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-.downloadButton, .useButton {
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+.downloadButton,
+.useButton {
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  transition: background-color 0.3s;
 }
 
 .downloadButton {
-    background-color: #4CAF50;
-    color: white;
+  background-color: #4caf50;
+  color: white;
 }
 
 .downloadButton:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
 .useButton {
-    background-color: #008CBA;
-    color: white;
+  background-color: #008cba;
+  color: white;
 }
 
 .useButton:hover {
-    background-color: #007B9A;
+  background-color: #007b9a;
 }
 
 .currentUrl {
-    color: #007bff;
-    font-weight: bold;
+  color: #007bff;
+  font-weight: bold;
 }
