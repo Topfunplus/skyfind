@@ -7,6 +7,7 @@ import { Ollama } from 'ollama/browser'
 import React, { useEffect, useRef, useState } from 'react'
 import { OllamaIcon } from '../../components/icons/ollama'
 import styles from './style.module.css'
+
 export function Chat() {
   const [userInput, setUserInput] = useState<string>('')
   const [messages, setMessages] = useState<{ role: string; content: string }[]>(
@@ -15,7 +16,7 @@ export function Chat() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [selectedModel, setSelectedModel] = useState<ModelResponse | null>(null)
   const [showModelList, setShowModelList] = useState<boolean>(false)
-  const [olllamaUrl, setOlllamaUrl] = useState<string>('172.20.193.200:11434')
+  const [olllamaUrl, setOlllamaUrl] = useState<string>('/api')
   const [ollama, setOllama] = useState<typeof Ollama | null>(null)
   const [availableModels, setAvailableModels] = useState<ModelResponse[]>([])
 
@@ -44,9 +45,9 @@ export function Chat() {
   }
 
   const changeOllama = () => {
-    const ollamaInstance = createOllama('172.20.193.205:11434')
+    const ollamaInstance = createOllama(`/api`)
     setOllama(ollamaInstance)
-    setOlllamaUrl('172.20.193.205:11434')
+    setOlllamaUrl('/api')
   }
 
   const tryThisModel = (model: ModelResponse) => {
@@ -128,9 +129,9 @@ export function Chat() {
     <>
       {contextHolder}
       <div className={styles.chatContainer}>
-        <h1>
+        <h2>
           Chat with {selectedModel?.name} <OllamaIcon />
-        </h1>
+        </h2>
         <h5 className={styles.currentUrl}>url: {olllamaUrl}</h5>
 
         <div className={styles.modelSelector}>
@@ -138,7 +139,7 @@ export function Chat() {
             {showModelList ? '隐藏模型列表' : '选择模型'}
           </button>
           <button onClick={changeOllama} className={styles.modelButton}>
-            切换本机ollama
+            切换本机
           </button>
         </div>
 

@@ -1,4 +1,5 @@
 'use strict'
+//这个文件是用来启动开发服务器的，它会启动一个 WebpackDevServer 实例，用于提供静态资源服务和热更新服务
 
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development'
@@ -44,6 +45,8 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
 }
 
 // Tools like Cloud9 rely on this.
+
+// 更改webpack默认的配置端口
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000
 const HOST = process.env.HOST || '0.0.0.0'
 

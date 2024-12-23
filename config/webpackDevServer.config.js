@@ -95,7 +95,25 @@ module.exports = function (proxy, allowedHost) {
     },
     // `proxy` 会在 `before` 和 `after` 两个 WebpackDevServer 中间件之间运行。
     // 这允许我们在代理请求之前读取本地文件。
-    proxy,
+    // proxy,
+    // 自定义proxy
+    proxy: {
+      '/api': {
+        target: 'http://localhost:11434', // 目标服务器地址
+        changeOrigin: true, // 是否修改请求的来源为目标地址
+        pathRewrite: { '^/api': '' }, // 将 `/api` 重写为空
+        secure: false, // 如果使用 https 并且目标服务器证书无效，则设置为 false
+        logLevel: 'debug', // 调试级别，开发时可设置为 'debug'
+      },
+      '/auth': {
+        target: 'http://localhost:4000',
+        changeOrigin: true,
+      },
+      // '/': {
+      //   target: 'http://localhost:5420',
+      //   changeOrigin: true,
+      // },
+    },
     onBeforeSetupMiddleware(devServer) {
       // 在 `redirectServedPath` 之前保留 `evalSourceMapMiddleware` 中间件，
       // 否则不会生效。
@@ -117,13 +135,5 @@ module.exports = function (proxy, allowedHost) {
       // 参考 https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
       devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath))
     },
-
-    // proxy 是一个对象，用于将请求代理到另一个服务器。
-    // proxy: {
-    //   '/': {
-    //     target: 'http://localhost:3000',
-    //     pathRewrite: { '^/api': '' },
-    //   },
-    // },
   }
 }

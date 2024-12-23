@@ -1,7 +1,10 @@
 'use strict'
 
+// 引入 fs 模块
 const fs = require('fs')
+// 引入 path 模块
 const path = require('path')
+// 引入 webpack 模块
 const webpack = require('webpack')
 const resolve = require('resolve')
 const HtmlWebpackPlugin = require('html-webpack-plugin')

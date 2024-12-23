@@ -1,6 +1,8 @@
 'use strict';
 
+// 导入fs模块
 const fs = require('fs');
+// 导入path模块
 const path = require('path');
 const paths = require('./paths');
 
