@@ -97,23 +97,18 @@ module.exports = function (proxy, allowedHost) {
     // 这允许我们在代理请求之前读取本地文件。
     // proxy,
     // 自定义proxy
-    proxy: {
-      '/api': {
-        target: 'http://localhost:11434', // 目标服务器地址
-        changeOrigin: true, // 是否修改请求的来源为目标地址
-        pathRewrite: { '^/api': '' }, // 将 `/api` 重写为空
-        secure: false, // 如果使用 https 并且目标服务器证书无效，则设置为 false
-        logLevel: 'debug', // 调试级别，开发时可设置为 'debug'
-      },
-      '/auth': {
-        target: 'http://localhost:4000',
+    proxy: [
+      {
+        context: ['/api', '/auth'],
+        target: 'http://localhost:7000',
         changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          '^/api': '',
+          '^/auth': '',
+        },
       },
-      // '/': {
-      //   target: 'http://localhost:5420',
-      //   changeOrigin: true,
-      // },
-    },
+    ],
     onBeforeSetupMiddleware(devServer) {
       // 在 `redirectServedPath` 之前保留 `evalSourceMapMiddleware` 中间件，
       // 否则不会生效。
