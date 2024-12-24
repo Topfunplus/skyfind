@@ -1,5 +1,5 @@
 import { Button, Form, Input, Typography, message } from 'antd'
-import { EditorState, convertToRaw } from 'draft-js'
+import { EditorState, Modifier, convertToRaw } from 'draft-js'
 import React, { useState } from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -12,40 +12,40 @@ const { Title } = Typography
 const CreatePost: React.FC = () => {
   const [form] = Form.useForm()
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false) // 表情选择框的显示状态
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
 
-  // 更新编辑器状态
   const onEditorStateChange = (state: typeof EditorState) => {
-    console.log('content:', state)
     setEditorState(state)
   }
 
-  // 将 EditorState 转换为 HTML 或纯文本
   const convertEditorStateToContent = () => {
-    const rawContent = convertToRaw(editorState.getCurrentContent().content)
-    // console.log(rawContent)
-    // console.log(convertToHTML(editorState.getCurrentContent()))
-    return JSON.stringify(rawContent) // 返回原始内容
+    const rawContent = convertToRaw(editorState.getCurrentContent())
+    return JSON.stringify(rawContent)
   }
 
-  // 提交表单
   const handleSubmit = (values: any) => {
     const { title } = values
-    const content = convertEditorStateToContent() // 获取编辑器内容
+    const content = convertEditorStateToContent()
 
-    // 发送 API 请求提交数据
     message.success('文章创建成功！')
     console.log('创建文章', { title, content })
   }
 
-  const searchEmoji = (value: any) => {
-    console.log(value)
-
-    console.log(editorState.getCurrentContent())
-    // const newContentValue = editorState.getCurrentContent().content
-    // setEditorState(
-    //   convertToRaw(editorState.getCurrentContent().content + value.native)
-    // )
+  const searchEmoji = (emoji: any) => {
+    const contentState = editorState.getCurrentContent()
+    const selectionState = editorState.getSelection()
+    const newContentState = Modifier.insertText(
+      contentState,
+      selectionState,
+      emoji.native
+    )
+    const newEditorState = EditorState.push(
+      editorState,
+      newContentState,
+      'insert-characters'
+    )
+    setEditorState(newEditorState)
+    setShowEmojiPicker(false) // Close the emoji picker after selecting an emoji
   }
 
   return (
@@ -99,7 +99,6 @@ const CreatePost: React.FC = () => {
               }}
             />
 
-            {/* 自定义表情按钮 */}
             <Button
               type="link"
               onClick={() => setShowEmojiPicker(!showEmojiPicker)}
