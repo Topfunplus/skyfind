@@ -6,4 +6,4 @@ export const ollama_api = axios.create({
   timeout: 5000,
 })
 
-export const OLLAMA_API_ADDRESS = `http://172.20.193.205:3001`
+export const OLLAMA_API_ADDRESS = `http://172.20.193.205:3001/api`

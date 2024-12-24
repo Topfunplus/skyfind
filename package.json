@@ -5,6 +5,8 @@
   "dependencies": {
     "@ant-design/icons": "^5.0.0",
     "@babel/core": "^7.16.0",
+    "@copilotkit/react-core": "^1.4.7",
+    "@copilotkit/react-ui": "^1.4.7",
     "@emoji-mart/data": "^1.2.1",
     "@emoji-mart/react": "^1.1.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",

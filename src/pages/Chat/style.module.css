@@ -140,8 +140,7 @@
 }
 
 .selectButton {
-  width: 50px;
-  height: 40px;
+  float: right;
   border-radius: 10px;
   border: none;
   font-weight: bold;
