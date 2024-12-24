@@ -12,9 +12,15 @@
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
   background-color: #fffdfd;
 }
+.modelNameContainer {
+  width: 60%;
+  margin: 0 auto;
+}
+.modelName {
+  font-size: medium;
+}
 
 /* 底部版权消失 输入框变为吸底效果 */
-
 /*
     当屏幕宽度小于 768 像素时，将聊天容器的宽度设置为 86%，最大高度设置为 900 像素。
 */
@@ -71,6 +77,8 @@
 }
 
 .messages {
+  margin: 0 auto;
+  width: 50%;
   height: 400px;
   overflow-y: scroll;
   margin-bottom: 20px;
@@ -79,7 +87,8 @@
 
 .userMessage {
   text-align: left;
-  background-color: #e0f7fa;
+  background: linear-gradient(45deg, #3399ff, #3385cc, #4c8ecf, #557da1);
+  color: white;
   padding: 8px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -87,7 +96,7 @@
 
 .assistantMessage {
   text-align: left;
-  background-color: #f1f8e9;
+  background: linear-gradient(45deg, #f1f8e9, #e2f1d9, #d3eac9, #c4e3b9);
   padding: 8px;
   margin-bottom: 10px;
   border-radius: 5px;
@@ -158,6 +167,18 @@
   margin: 0 10px;
   font-size: 14px;
   background-color: #1abaf0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.modelNotButton {
+  background-color: #f7be45;
+  font-weight: bold;
+  margin: 0 10px;
+  font-size: 14px;
   color: white;
   border: none;
   border-radius: 5px;

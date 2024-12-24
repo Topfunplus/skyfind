@@ -124,7 +124,6 @@ export function Chat() {
           })
         }
       }
-
       setIsLoading(false)
     } catch (error) {
       console.error('Error fetching chat content:', error)
@@ -148,38 +147,35 @@ export function Chat() {
     <>
       {contextHolder}
       <div className={styles.chatContainer}>
-        <h2>
-          Chat with {selectedModel} <OllamaIcon />
-        </h2>
-
-        <div className={styles.modelSelector}>
-          <button onClick={fetchModels} className={styles.modelButton}>
-            {showModelList ? '隐藏模型列表' : '选择模型'}
-          </button>
+        <div className={styles.modelNameContainer}>
+          <h2 className={styles.modelName}>
+            <OllamaIcon />
+            Chat with {selectedModel ?? 'model'}
+          </h2>
+          <div className={styles.modelSelector}>
+            <button
+              onClick={fetchModels}
+              className={
+                selectedModel ? styles.modelNotButton : styles.modelButton
+              }
+            >
+              {showModelList
+                ? '隐藏模型列表'
+                : selectedModel
+                ? '重新选择'
+                : '选择模型'}
+            </button>
+          </div>
         </div>
-
         {showModelList && (
-          // <div className={styles.modelList}>
-          //   {availableModels.length > 0
-          //     ? availableModels.map((model: any, index: any) => (
-          //         <div key={index} className={styles.modelItem}>
-          //           <h4>名称:{model.name}</h4>
-          //           <p>
-          //             大小: {(model.size / (1024 * 1024 * 1024)).toFixed(2)} GB
-          //           </p>
-          //           <button
-          //             onClick={() => tryThisModel(model.model)}
-          //             className={styles.selectButton}
-          //           >
-          //             选择
-          //           </button>
-          //         </div>
-          //       ))
-          //     : 'No models found'}
-          // </div>
           <Fragment>
             <List
-              style={{ maxHeight: '300px', overflowY: 'scroll' }}
+              style={{
+                maxHeight: '300px',
+                overflowY: 'scroll',
+                maxWidth: '60%',
+                margin: '20px auto',
+              }}
               header={<div>本地模型列表</div>}
               bordered
               dataSource={availableModels}
