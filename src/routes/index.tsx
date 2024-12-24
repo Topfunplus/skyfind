@@ -11,6 +11,11 @@ import {
   Register,
   UserProfile,
 } from '../pages/index'
+
+const Test = () => {
+  return <>test</>
+}
+
 const AppRoutes: React.FC = () => {
   return (
     <>
@@ -26,6 +31,7 @@ const AppRoutes: React.FC = () => {
             <Route path="create-post" element={<CreatePost />} />
             <Route path="admin/*" element={<AdminDashboard />} />
           </Route>
+          <Route path="/back" element={<Test />} />
         </Routes>
       </BrowserRouter>
     </>

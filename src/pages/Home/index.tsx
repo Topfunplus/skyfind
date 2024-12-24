@@ -1,6 +1,7 @@
 import { Card, List, Space, Tag, Typography } from 'antd'
 import React from 'react'
 import { Link } from 'react-router-dom'
+import JSOutlined from '../../components/icons/JS'
 import { useAppSelector } from '../../hooks/redux'
 import './style.css'
 
@@ -19,14 +20,70 @@ const Home: React.FC = () => {
       tags: ['React', 'TypeScript'],
       createdAt: new Date(),
     },
+    {
+      id: '1',
+      title: '示例文章1',
+      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
+      author: { username: '作者1' },
+      tags: ['React', 'TypeScript'],
+      createdAt: new Date(),
+    },
+    {
+      id: '1',
+      title: '示例文章1',
+      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
+      author: { username: '作者1' },
+      tags: ['React', 'TypeScript'],
+      createdAt: new Date(),
+    },
+    {
+      id: '1',
+      title: '示例文章1',
+      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
+      author: { username: '作者1' },
+      tags: ['React', 'TypeScript'],
+      createdAt: new Date(),
+    },
+
+    {
+      id: '1',
+      title: '示例文章1',
+      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
+      author: { username: '作者1' },
+      tags: ['React', 'TypeScript'],
+      createdAt: new Date(),
+    },
+    {
+      id: '1',
+      title: '示例文章1',
+      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
+      author: { username: '作者1' },
+      tags: ['React', 'TypeScript'],
+      createdAt: new Date(),
+    },
+    {
+      id: '1',
+      title: '示例文章1',
+      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
+      author: { username: '作者1' },
+      tags: ['React', 'TypeScript'],
+      createdAt: new Date(),
+    },
   ]
 
   return (
     <div className="home-container">
       <div className="page-header">
-        <Title level={2}>最新文章</Title>
+        <h2 className="page-header-bigHeader">最新文章</h2>
         <Paragraph type="secondary">
-          发现有趣的技术文章，分享你的编程见解
+          <div className="page-header-intro">
+            <JSOutlined />
+            <div>
+              <span className="page-header-intro-content">
+                发现有趣的技术文章，分享你的编程见解
+              </span>
+            </div>
+          </div>
         </Paragraph>
       </div>
       <List

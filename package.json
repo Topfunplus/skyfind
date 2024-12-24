@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^5.0.0",
+    "@ant-design/icons": "^5.5.2",
     "@babel/core": "^7.16.0",
     "@copilotkit/react-core": "^1.4.7",
     "@copilotkit/react-ui": "^1.4.7",
