@@ -33,6 +33,7 @@ module.exports = function (proxy, allowedHost) {
     // 最后，如果你确实知道自己在做什么，可以使用一个特殊的环境变量覆盖该行为。
     // 注意：["localhost", ".localhost"] 支持子域名 - 但我们可能需要手动设置 allowedHosts 来处理更复杂的设置。
     allowedHosts: disableFirewall ? 'all' : [allowedHost],
+    // allowedHost: ['localhost'],
     headers: {
       'Access-Control-Allow-Origin': '*', // 允许所有来源跨域请求
       'Access-Control-Allow-Methods': '*', // 允许所有方法
@@ -99,13 +100,23 @@ module.exports = function (proxy, allowedHost) {
     // 自定义proxy
     proxy: [
       {
-        context: ['/api', '/auth'],
+        context: ['/auth'],
         target: 'http://localhost:7000',
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/api': '',
           '^/auth': '',
+        },
+      },
+      // ollama服务
+      {
+        context: ['/api', '/ollama'],
+        target: 'http://localhost:11434',
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          // '^/api': '',
+          '^/ollama': '',
         },
       },
     ],

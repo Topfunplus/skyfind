@@ -1,6 +1,7 @@
 .loading {
   font-style: italic;
   color: gray;
+  height: 50px;
 }
 
 .chatContainer {
@@ -139,9 +140,10 @@
 }
 
 .selectButton {
+  width: 50px;
+  height: 40px;
   border-radius: 10px;
   border: none;
-  padding: 5px;
   font-weight: bold;
   background: #47d148;
   color: white;
@@ -177,10 +179,10 @@
 .modelItem {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
+  align-items: center;
+  padding: 2px;
   border: 1px solid #ddd;
   margin-bottom: 10px;
-  border-radius: 5px;
   background-color: #f9f9f9;
 }
 

@@ -29,4 +29,21 @@ export interface Comment {
   parentComment?: string;
   createdAt: Date;
   updatedAt: Date;
-} 
+}
+
+export type OllamaModel = {
+  details: OllamaModelDetails,
+  disgest: string,
+  name: string,
+  size: number,
+  modified_at: string,
+}
+
+export type OllamaModelDetails = {
+  families: string[],
+  family: string,
+  format: string,
+  parameter_size: string,
+  parent_model: string,
+  quantization_level: string
+}

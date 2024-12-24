@@ -2,10 +2,9 @@ import { LoadingOutlined } from '@ant-design/icons'
 import { message } from 'antd'
 import DOMPurify from 'dompurify'
 import { marked } from 'marked'
-import { ListResponse, ModelResponse } from 'ollama'
-import { Ollama } from 'ollama/browser'
 import React, { useEffect, useRef, useState } from 'react'
 import { OllamaIcon } from '../../components/icons/ollama'
+import { OLLAMA_API_ADDRESS } from '../../http'
 import styles from './style.module.css'
 
 export function Chat() {
@@ -14,54 +13,49 @@ export function Chat() {
     []
   )
   const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedModel, setSelectedModel] = useState<ModelResponse | null>(null)
+  const [selectedModel, setSelectedModel] = useState<string | null>(null)
   const [showModelList, setShowModelList] = useState<boolean>(false)
-  const [olllamaUrl, setOlllamaUrl] = useState<string>('/api')
-  const [ollama, setOllama] = useState<typeof Ollama | null>(null)
-  const [availableModels, setAvailableModels] = useState<ModelResponse[]>([])
+
+  const [availableModels, setAvailableModels] = useState<any>(null)
 
   const [messageApi, contextHolder] = message.useMessage()
 
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
 
-  // 监听调换的url 读取该url下的所有的模型
+  // fetch models
+  const fetchModels = async () => {
+    try {
+      const response = await fetch(`${OLLAMA_API_ADDRESS}/api/tags`)
+      const data = await response.json()
+      console.log('data:', data)
+
+      setAvailableModels(data.models)
+      setShowModelList((pre) => !pre)
+    } catch (error) {
+      console.error('Error fetching models:', error)
+    }
+  }
+
   useEffect(() => {
-    if (!olllamaUrl) return
-    const ollamaInstance = createOllama(olllamaUrl)
-    setOllama(ollamaInstance)
+    if (availableModels) {
+      console.log('avaliable models :', availableModels)
+    }
 
-    ollamaInstance
-      .list()
-      .then((res: ListResponse) => {
-        setAvailableModels(res.models)
-      })
-      .catch((error: any) => {
-        console.error('Failed to load models:', error)
-      })
-  }, [olllamaUrl])
+    return () => {
+      console.log('cleanup')
+    }
+  }, [availableModels])
 
-  const createOllama = (url: string) => {
-    return new Ollama({ host: url })
-  }
+  useEffect(() => {
+    console.log('showModelList:', showModelList)
+  }, [showModelList])
 
-  const changeOllama = () => {
-    const ollamaInstance = createOllama(`/api`)
-    setOllama(ollamaInstance)
-    setOlllamaUrl('/api')
-  }
-
-  const tryThisModel = (model: ModelResponse) => {
+  const tryThisModel = (model: string) => {
     setSelectedModel(model)
-    // 关闭选择列表
     setShowModelList(false)
   }
 
   async function sendMessage() {
-    if (!ollama) {
-      messageApi.error('请先选择ollama地址')
-      return
-    }
-
     if (!selectedModel) {
       messageApi.error('请先选择模型')
       return
@@ -73,14 +67,41 @@ export function Chat() {
     setIsLoading(true)
 
     try {
-      const response = await ollama.chat({
-        model: selectedModel.name,
-        messages: newMessages,
-        stream: true,
+      const response = await fetch(`${OLLAMA_API_ADDRESS}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: selectedModel,
+          messages: newMessages,
+          stream: true,
+          options: {},
+        }),
       })
 
-      for await (const part of response) {
-        let currentResponse = part.message.content
+      if (!response.ok) {
+        messageApi.error('AI服务出错')
+        setMessages((prevMessages) => {
+          const updatedMessages = [...prevMessages]
+          updatedMessages.push({
+            role: 'assistant',
+            content: 'ollama:服务出错',
+          })
+          return updatedMessages
+        })
+        setIsLoading(false)
+        return
+      }
+
+      const reader = response.body?.getReader()
+      const decoder = new TextDecoder()
+      let done = false
+
+      while (!done) {
+        const { value, done: readerDone } = (await reader?.read()) || {}
+        done = readerDone as boolean
+        const chunk = decoder.decode(value, { stream: true })
         setMessages((prevMessages) => {
           const updatedMessages = [...prevMessages]
           if (
@@ -89,12 +110,13 @@ export function Chat() {
           ) {
             updatedMessages[updatedMessages.length - 1] = {
               role: 'assistant',
-              content: currentResponse,
+              content:
+                updatedMessages[updatedMessages.length - 1].content + chunk,
             }
           } else {
             updatedMessages.push({
               role: 'assistant',
-              content: currentResponse,
+              content: chunk,
             })
           }
           return updatedMessages
@@ -114,48 +136,44 @@ export function Chat() {
     return sanitized ? sanitized : ''
   }
 
-  const toggleModelList = () => {
-    setShowModelList((prev) => !prev)
-  }
-
   useEffect(() => {
-    // 自动滚动到底部
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
-  }, [messages]) // 每次 messages 更新时自动滚动
+  }, [messages])
 
   return (
     <>
       {contextHolder}
       <div className={styles.chatContainer}>
         <h2>
-          Chat with {selectedModel?.name} <OllamaIcon />
+          Chat with {selectedModel} <OllamaIcon />
         </h2>
-        <h5 className={styles.currentUrl}>url: {olllamaUrl}</h5>
 
         <div className={styles.modelSelector}>
-          <button onClick={toggleModelList} className={styles.modelButton}>
+          <button onClick={fetchModels} className={styles.modelButton}>
             {showModelList ? '隐藏模型列表' : '选择模型'}
-          </button>
-          <button onClick={changeOllama} className={styles.modelButton}>
-            切换本机
           </button>
         </div>
 
         {showModelList && (
           <div className={styles.modelList}>
-            {availableModels.map((model, index) => (
-              <div key={index} className={styles.modelItem}>
-                <span>{model.name}</span>
-                <button
-                  onClick={() => tryThisModel(model)}
-                  className={styles.selectButton}
-                >
-                  选择
-                </button>
-              </div>
-            ))}
+            {availableModels.length > 0
+              ? availableModels.map((model: any, index: any) => (
+                  <div key={index} className={styles.modelItem}>
+                    <h4>{model.name}</h4>
+                    <p>Model: {model.model}</p>
+                    <p>Size: {model.size}</p>
+                    <p>Last Modified: {model.modified_at}</p>
+                    <button
+                      onClick={() => tryThisModel(model.model)}
+                      className={styles.selectButton}
+                    >
+                      选择
+                    </button>
+                  </div>
+                ))
+              : 'No models found'}
           </div>
         )}
 
@@ -184,7 +202,6 @@ export function Chat() {
           ))}
           {isLoading && <div className={styles.loading}>AI is typing...</div>}
           <div ref={messagesEndRef} />
-          {/* 这里放置一个空的 div，用于滚动到最底部 */}
         </div>
 
         <div className={styles.inputContainer}>
