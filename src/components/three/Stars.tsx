@@ -1,7 +1,11 @@
 import React, { useEffect, useRef } from "react";
 import * as THREE from "three";
 import js_svg from "../../assets/js-official-svgrepo-com.svg";
-
+import mysql_svg from "../../assets/mysql-svgrepo-com.svg";
+import react_svg from "../../assets/reactts-svgrepo-com.svg";
+import rust_svg from "../../assets/rust-svgrepo-com.svg";
+import vscode_svg from "../../assets/vscode-svgrepo-com.svg";
+import vue_svg from "../../assets/vue-svgrepo-com.svg";
 const PlanetOrbit: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -31,11 +35,11 @@ const PlanetOrbit: React.FC = () => {
     const sunTexture = textureLoader.load(js_svg);
     // 创建多个行星
     const planets = [
-      { radius: 3, size: 0.3, color: 0x0000ff, speed: 0.001 },
-      { radius: 4, size: 0.5, color: 0x00ff00, speed: 0.002 },
-      { radius: 5, size: 0.1, color: 0xff0000, speed: 0.005 },
-      { radius: 5, size: 0.2, color: 0xff0000, speed: 0.003 },
-      { radius: 5, size: 0.4, color: 0xff0000, speed: 0.003 },
+      { radius: 3, size: 0.3, speed: 0.0 },
+      { radius: 4, size: 0.5, speed: 0.005 },
+      { radius: 5, size: 0.4, speed: 0.01 },
+      { radius: 4, size: 0.2, speed: 0.013 },
+      { radius: 5, size: 0.4, speed: 0.003 },
     ];
 
     const planetMeshes: {
@@ -47,11 +51,11 @@ const PlanetOrbit: React.FC = () => {
 
     // 创建太阳（中心）平面
     const planetTextures = [
-      textureLoader.load("path/to/planet1.svg"),
-      textureLoader.load("path/to/planet2.svg"),
-      textureLoader.load("path/to/planet3.svg"),
-      textureLoader.load("path/to/planet4.svg"),
-      textureLoader.load("path/to/planet5.svg"),
+      textureLoader.load(react_svg),
+      textureLoader.load(mysql_svg),
+      textureLoader.load(rust_svg),
+      textureLoader.load(vscode_svg),
+      textureLoader.load(vue_svg),
     ];
 
     planets.forEach((planetConfig, index) => {
@@ -93,7 +97,7 @@ const PlanetOrbit: React.FC = () => {
         32,
       );
       const planetMaterial = new THREE.MeshBasicMaterial({
-        color: planetConfig.color,
+        // color: planetConfig.color,
       });
       const planet = new THREE.Mesh(planetGeometry, planetMaterial);
 
