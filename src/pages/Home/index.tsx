@@ -5,7 +5,7 @@ import JSOutlined from '../../components/icons/JS'
 import { useAppSelector } from '../../hooks/redux'
 import './style.css'
 
-const { Title, Paragraph } = Typography
+const { Paragraph } = Typography
 
 const Home: React.FC = () => {
   const { posts } = useAppSelector((state) => state.posts)

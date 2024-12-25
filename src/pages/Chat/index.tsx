@@ -1,12 +1,13 @@
 import { LoadingOutlined } from '@ant-design/icons'
 import { Button, Flex, List, message, Typography } from 'antd'
 import DOMPurify from 'dompurify'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/github.min.css'
 import { marked } from 'marked'
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import { OllamaIcon } from '../../components/icons/ollama'
 import { OLLAMA_API_ADDRESS } from '../../http'
 import styles from './style.module.css'
-
 export function Chat() {
   const [userInput, setUserInput] = useState<string>('')
   const [messages, setMessages] = useState<{ role: string; content: string }[]>(
@@ -18,7 +19,10 @@ export function Chat() {
   const [availableModels, setAvailableModels] = useState<any>(null)
   const [messageApi, contextHolder] = message.useMessage()
   const messagesEndRef = useRef<HTMLDivElement | null>(null)
+  // color for the robot message
+  const robotMessageRef = useRef<HTMLDivElement | null>(null)
 
+  console.log('hljs', hljs)
   // fetch models
   const fetchModels = async () => {
     try {
@@ -44,6 +48,16 @@ export function Chat() {
   useEffect(() => {
     console.log('showModelList:', showModelList)
   }, [showModelList])
+
+  useEffect(() => {
+    // 用hljs 对AI发送的消息进行代码着色
+    if (robotMessageRef.current) {
+      const codeBlocks = robotMessageRef.current.querySelectorAll('code')
+      codeBlocks.forEach((block) => {
+        hljs.highlightBlock(block)
+      })
+    }
+  }, [messages])
 
   const tryThisModel = (model: string) => {
     setSelectedModel(model)
@@ -229,6 +243,7 @@ export function Chat() {
                 </>
               ) : (
                 <div
+                  ref={robotMessageRef}
                   dangerouslySetInnerHTML={{
                     __html: renderMarkdown(msg.content),
                   }}
