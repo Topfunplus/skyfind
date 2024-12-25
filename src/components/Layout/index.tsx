@@ -1,56 +1,56 @@
-import { UserOutlined } from '@ant-design/icons'
-import { CopilotKit } from '@copilotkit/react-core'
-import { CopilotSidebar } from '@copilotkit/react-ui'
-import { Layout as AntLayout, Button, Menu } from 'antd'
-import React from 'react'
-import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
-import { useAppSelector } from '../../hooks/redux'
-import { RootState } from '../../store'
-import './style.css'
-const { Header, Content, Footer } = AntLayout
+import { UserOutlined } from "@ant-design/icons";
+import { CopilotKit } from "@copilotkit/react-core";
+import { CopilotSidebar } from "@copilotkit/react-ui";
+import { Layout as AntLayout, Button, Menu } from "antd";
+import React from "react";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../hooks/redux";
+import { RootState } from "../../store";
+import "./style.css";
+const { Header, Content, Footer } = AntLayout;
 
 const Layout: React.FC = () => {
-  const { user } = useAppSelector((state: RootState) => state.auth)
+  const { user } = useAppSelector((state: typeof RootState) => state.auth);
 
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const selectedKeys = [location.pathname.split('/')[1] || 'home']
+  const selectedKeys = [location.pathname.split("/")[1] || "home"];
 
   // 顶部header的menu中的选项
   const menuItems = [
     {
-      key: 'home',
+      key: "home",
       label: <Link to="/">首页</Link>,
     },
     {
-      key: 'chat',
+      key: "chat",
       label: <Link to="/chat">聊天</Link>,
     },
     ...(user
       ? [
           {
-            key: 'create-post',
+            key: "create-post",
             label: <Link to="/create-post">写文章</Link>,
           },
           {
-            key: 'profile',
+            key: "profile",
             label: <Link to="/profile">个人中心</Link>,
           },
         ]
       : []),
-  ]
+  ];
 
   return (
     <CopilotKit publicApiKey="ck_pub_b981b253ce7643f9c2bb104233a4e1e7">
       <CopilotSidebar
         defaultOpen={true}
         instructions={
-          'You are assisting the user as best as you can. Answer in the best way possible given the data you have.'
+          "You are assisting the user as best as you can. Answer in the best way possible given the data you have."
         }
         labels={{
-          title: 'CopilotKit助手',
-          initial: '你好，欢迎来到穹顶寻宝，我可以帮助你什么吗？',
+          title: "CopilotKit助手",
+          initial: "你好，欢迎来到穹顶寻宝，我可以帮助你什么吗？",
         }}
       >
         <AntLayout className="layout">
@@ -71,7 +71,7 @@ const Layout: React.FC = () => {
               <Button
                 type="text"
                 icon={<UserOutlined />}
-                onClick={() => navigate('/login')}
+                onClick={() => navigate("/login")}
                 className="login-btn"
               >
                 登录
@@ -91,7 +91,7 @@ const Layout: React.FC = () => {
         </AntLayout>
       </CopilotSidebar>
     </CopilotKit>
-  )
-}
+  );
+};
 
-export default Layout
+export default Layout;

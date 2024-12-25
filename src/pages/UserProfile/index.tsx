@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const UserProfile: React.FC = () => {
   return (
@@ -8,4 +8,4 @@ const UserProfile: React.FC = () => {
   );
 };
 
-export default UserProfile; 
+export default UserProfile;

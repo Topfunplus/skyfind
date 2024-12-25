@@ -1,7 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
-import authReducer from './slices/authSlice'
-import commentReducer from './slices/commentSlice'
-import postReducer from './slices/postSlice'
+import { configureStore } from "@reduxjs/toolkit";
+import authReducer from "./slices/authSlice";
+import commentReducer from "./slices/commentSlice";
+import postReducer from "./slices/postSlice";
 
 export const store = configureStore({
   reducer: {
@@ -9,7 +9,7 @@ export const store = configureStore({
     posts: postReducer,
     comments: commentReducer,
   },
-})
+});
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

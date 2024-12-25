@@ -1,24 +1,24 @@
-'use strict'
+"use strict";
 
 // 引入 fs 模块
-const fs = require('fs')
+const fs = require("fs");
 
 // 引入 react-dev-utils/chalk 模块 - 用于在终端中输出彩色文字 - https://www.npmjs.com/package/chalk
-const evalSourceMapMiddleware = require('react-dev-utils/evalSourceMapMiddleware')
-const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware')
-const ignoredFiles = require('react-dev-utils/ignoredFiles')
-const redirectServedPath = require('react-dev-utils/redirectServedPathMiddleware')
-const paths = require('./paths')
-const getHttpsConfig = require('./getHttpsConfig')
+const evalSourceMapMiddleware = require("react-dev-utils/evalSourceMapMiddleware");
+const noopServiceWorkerMiddleware = require("react-dev-utils/noopServiceWorkerMiddleware");
+const ignoredFiles = require("react-dev-utils/ignoredFiles");
+const redirectServedPath = require("react-dev-utils/redirectServedPathMiddleware");
+const paths = require("./paths");
+const getHttpsConfig = require("./getHttpsConfig");
 
-const host = process.env.HOST || '0.0.0.0'
-const sockHost = process.env.WDS_SOCKET_HOST
-const sockPath = process.env.WDS_SOCKET_PATH // 默认值: '/ws'
-const sockPort = process.env.WDS_SOCKET_PORT
+const host = process.env.HOST || "0.0.0.0";
+const sockHost = process.env.WDS_SOCKET_HOST;
+const sockPath = process.env.WDS_SOCKET_PATH; // 默认值: '/ws'
+const sockPort = process.env.WDS_SOCKET_PORT;
 
 module.exports = function (proxy, allowedHost) {
   const disableFirewall =
-    !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === 'true'
+    !proxy || process.env.DANGEROUSLY_DISABLE_HOST_CHECK === "true";
   return {
     // WebpackDevServer 2.4.3 引入了一项安全修复，防止远程网站通过 DNS 重新绑定访问本地内容：
     // https://github.com/webpack/webpack-dev-server/issues/887
@@ -32,12 +32,12 @@ module.exports = function (proxy, allowedHost) {
     // 因此，我们通常会禁用主机检查，但如果你指定了 `proxy` 设置，则会启用它。
     // 最后，如果你确实知道自己在做什么，可以使用一个特殊的环境变量覆盖该行为。
     // 注意：["localhost", ".localhost"] 支持子域名 - 但我们可能需要手动设置 allowedHosts 来处理更复杂的设置。
-    allowedHosts: disableFirewall ? 'all' : [allowedHost],
+    allowedHosts: disableFirewall ? "all" : [allowedHost],
     // allowedHost: ['localhost'],
     headers: {
-      'Access-Control-Allow-Origin': '*', // 允许所有来源跨域请求
-      'Access-Control-Allow-Methods': '*', // 允许所有方法
-      'Access-Control-Allow-Headers': '*', // 允许所有请求头
+      "Access-Control-Allow-Origin": "*", // 允许所有来源跨域请求
+      "Access-Control-Allow-Methods": "*", // 允许所有方法
+      "Access-Control-Allow-Headers": "*", // 允许所有请求头
     },
     // 启用生成文件的 gzip 压缩。
     compress: true,
@@ -100,23 +100,23 @@ module.exports = function (proxy, allowedHost) {
     // 自定义proxy
     proxy: [
       {
-        context: ['/auth'],
-        target: 'http://localhost:7000',
+        context: ["/auth"],
+        target: "http://localhost:7000",
         changeOrigin: true,
         secure: false,
         pathRewrite: {
-          '^/auth': '',
+          "^/auth": "",
         },
       },
       // ollama服务
       {
-        context: ['/api', '/ollama'],
-        target: 'http://localhost:11434',
+        context: ["/api", "/ollama"],
+        target: "http://localhost:11434",
         changeOrigin: true,
         secure: false,
         pathRewrite: {
           // '^/api': '',
-          '^/ollama': '',
+          "^/ollama": "",
         },
       },
     ],
@@ -124,22 +124,22 @@ module.exports = function (proxy, allowedHost) {
       // 在 `redirectServedPath` 之前保留 `evalSourceMapMiddleware` 中间件，
       // 否则不会生效。
       // 这使得我们可以从 webpack 中获取错误覆盖层的源码内容。
-      devServer.app.use(evalSourceMapMiddleware(devServer))
+      devServer.app.use(evalSourceMapMiddleware(devServer));
 
       if (fs.existsSync(paths.proxySetup)) {
         // 注册用户提供的中间件，用于代理目的。
-        require(paths.proxySetup)(devServer.app)
+        require(paths.proxySetup)(devServer.app);
       }
     },
     onAfterSetupMiddleware(devServer) {
       // 如果 URL 不匹配，重定向到 `PUBLIC_URL` 或 `package.json` 中的 `homepage`。
-      devServer.app.use(redirectServedPath(paths.publicUrlOrPath))
+      devServer.app.use(redirectServedPath(paths.publicUrlOrPath));
 
       // 此 service worker 文件实际上是一个 "无操作" 文件，
       // 用于重置之前为相同主机:端口组合注册的任何 service worker。
       // 我们在开发环境中这样做，以避免使用生产缓存。
       // 参考 https://github.com/facebook/create-react-app/issues/2272#issuecomment-302832432
-      devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath))
+      devServer.app.use(noopServiceWorkerMiddleware(paths.publicUrlOrPath));
     },
-  }
-}
+  };
+};

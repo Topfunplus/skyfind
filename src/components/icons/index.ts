@@ -1,5 +1,5 @@
-import {OllamaIcon} from "./ollama";
+import { OllamaIcon } from "./ollama";
 
 export default {
-    OllamaIcon
-}
+  OllamaIcon,
+};

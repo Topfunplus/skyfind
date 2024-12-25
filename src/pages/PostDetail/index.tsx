@@ -1,4 +1,4 @@
-import { CommentOutlined, LikeOutlined } from '@ant-design/icons'
+import { CommentOutlined, LikeOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
@@ -9,94 +9,94 @@ import {
   Space,
   Tag,
   Typography,
-} from 'antd'
-import { marked } from 'marked'
-import React, { useState } from 'react'
-import { useParams } from 'react-router-dom'
-import './style.css'
+} from "antd";
+import { marked } from "marked";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import "./style.css";
 
 // 引入防止xss攻击的库
-import DOMPurify from 'dompurify'
+import DOMPurify from "dompurify";
 
 const text =
-  "# 探索人工智能的未来 🚀 \n *作者：未来探索者* \n *发布日期：2024 年 12 月 21 日* \n > **“人工智能不会取代人类，但会取代那些不会使用人工智能的人。”** \n > —— 一位未来学家 \n 在过去的十年中，人工智能（AI）从科幻小说的愿景走进了我们的日常生活。从推荐电影的算法到自动驾驶的汽车，AI 已经渗透到各个领域。那么，未来的人工智能会带给我们什么？本文将从三个方面探讨这一问题。 \n ## 🌟 1. AI 在日常生活中的应用\n - 安排日程 📅 \n **示例代码：** \n ```javascript\nconst assistant = new AI('ChatGPT');  "
-const { TextArea } = Input
-const { Title, Paragraph } = Typography
+  "# 探索人工智能的未来 🚀 \n *作者：未来探索者* \n *发布日期：2024 年 12 月 21 日* \n > **“人工智能不会取代人类，但会取代那些不会使用人工智能的人。”** \n > —— 一位未来学家 \n 在过去的十年中，人工智能（AI）从科幻小说的愿景走进了我们的日常生活。从推荐电影的算法到自动驾驶的汽车，AI 已经渗透到各个领域。那么，未来的人工智能会带给我们什么？本文将从三个方面探讨这一问题。 \n ## 🌟 1. AI 在日常生活中的应用\n - 安排日程 📅 \n **示例代码：** \n ```javascript\nconst assistant = new AI('ChatGPT');  ";
+const { TextArea } = Input;
+const { Title, Paragraph } = Typography;
 
 const PostDetail: React.FC = () => {
-  const { id } = useParams<{ id: string }>()
-  const [commentValue, setCommentValue] = useState('')
+  const { id } = useParams();
+  const [commentValue, setCommentValue] = useState("");
 
   // 模拟文章数据
   const post = {
     id,
-    title: '人工智能的未来',
+    title: "人工智能的未来",
     content: text,
     author: {
-      username: '技术专家',
-      avatar: 'https://joeschmoe.io/api/v1/random',
+      username: "技术专家",
+      avatar: "https://joeschmoe.io/api/v1/random",
     },
-    tags: ['React', 'TypeScript', '前端开发', '最佳实践'],
+    tags: ["React", "TypeScript", "前端开发", "最佳实践"],
     createdAt: new Date(),
     likes: 42,
     comments: [
       {
-        id: '1',
+        id: "1",
         author: {
-          username: '评论者1',
-          avatar: 'https://joeschmoe.io/api/v1/random',
+          username: "评论者1",
+          avatar: "https://joeschmoe.io/api/v1/random",
         },
-        content: '文章写得很好，对我帮助很大！',
+        content: "文章写得很好，对我帮助很大！",
         createdAt: new Date(),
       },
       {
-        id: '1',
+        id: "1",
         author: {
-          username: '评论者1',
-          avatar: 'https://joeschmoe.io/api/v1/random',
+          username: "评论者1",
+          avatar: "https://joeschmoe.io/api/v1/random",
         },
-        content: '文章写得很好，对我帮助很大！',
+        content: "文章写得很好，对我帮助很大！",
         createdAt: new Date(),
       },
       {
-        id: '1',
+        id: "1",
         author: {
-          username: '评论者1',
-          avatar: 'https://joeschmoe.io/api/v1/random',
+          username: "评论者1",
+          avatar: "https://joeschmoe.io/api/v1/random",
         },
-        content: '文章写得很好，对我帮助很大！',
+        content: "文章写得很好，对我帮助很大！",
         createdAt: new Date(),
       },
       {
-        id: '1',
+        id: "1",
         author: {
-          username: '评论者1',
-          avatar: 'https://joeschmoe.io/api/v1/random',
+          username: "评论者1",
+          avatar: "https://joeschmoe.io/api/v1/random",
         },
-        content: '文章写得很好，对我帮助很大！',
+        content: "文章写得很好，对我帮助很大！",
         createdAt: new Date(),
       },
       {
-        id: '1',
+        id: "1",
         author: {
-          username: '评论者1',
-          avatar: 'https://joeschmoe.io/api/v1/random',
+          username: "评论者1",
+          avatar: "https://joeschmoe.io/api/v1/random",
         },
-        content: '文章写得很好，对我帮助很大！',
+        content: "文章写得很好，对我帮助很大！",
         createdAt: new Date(),
       },
     ],
-  }
+  };
   const renderMarkdown = (content: string): string => {
-    const markedContent = marked(content) as string // 转换为 HTML
-    return DOMPurify.sanitize(markedContent)
-  }
+    const markedContent = marked(content) as string; // 转换为 HTML
+    return DOMPurify.sanitize(markedContent);
+  };
 
   const handleComment = () => {
-    if (!commentValue) return
+    if (!commentValue) return;
     // 这里处理评论提交
-    setCommentValue('')
-  }
+    setCommentValue("");
+  };
 
   return (
     <div className="post-detail">
@@ -142,7 +142,7 @@ const PostDetail: React.FC = () => {
               <TextArea
                 rows={1}
                 value={commentValue}
-                onChange={(e) => setCommentValue(e.target.value)}
+                onChange={(e: any) => setCommentValue(e.target.value)}
                 placeholder="写下你的评论..."
                 autoSize={{ minRows: 1, maxRows: 6 }}
               />
@@ -162,7 +162,7 @@ const PostDetail: React.FC = () => {
                 className="comment-list"
                 itemLayout="horizontal"
                 dataSource={post.comments}
-                renderItem={(comment) => (
+                renderItem={(comment: any) => (
                   <List.Item>
                     <div className="comment-item">
                       <Avatar src={comment.author.avatar} />
@@ -186,7 +186,7 @@ const PostDetail: React.FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PostDetail
+export default PostDetail;

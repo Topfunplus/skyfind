@@ -1,52 +1,52 @@
-import { Button, Form, Input, Typography, message } from 'antd'
-import { EditorState, Modifier, convertToRaw } from 'draft-js'
-import React, { useState } from 'react'
-import { Editor } from 'react-draft-wysiwyg'
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import { Button, Form, Input, Typography, message } from "antd";
+import { EditorState, Modifier, convertToRaw } from "draft-js";
+import React, { useState } from "react";
+import { Editor } from "react-draft-wysiwyg";
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-import EmojiPicker from '../../components/picker'
-import styles from './style.module.css'
+import EmojiPicker from "../../components/picker";
+import styles from "./style.module.css";
 
-const { Title } = Typography
+const { Title } = Typography;
 
 const CreatePost: React.FC = () => {
-  const [form] = Form.useForm()
-  const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
+  const [form] = Form.useForm();
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
   const onEditorStateChange = (state: typeof EditorState) => {
-    setEditorState(state)
-  }
+    setEditorState(state);
+  };
 
   const convertEditorStateToContent = () => {
-    const rawContent = convertToRaw(editorState.getCurrentContent())
-    return JSON.stringify(rawContent)
-  }
+    const rawContent = convertToRaw(editorState.getCurrentContent());
+    return JSON.stringify(rawContent);
+  };
 
   const handleSubmit = (values: any) => {
-    const { title } = values
-    const content = convertEditorStateToContent()
+    const { title } = values;
+    const content = convertEditorStateToContent();
 
-    message.success('文章创建成功！')
-    console.log('创建文章', { title, content })
-  }
+    message.success("文章创建成功！");
+    console.log("创建文章", { title, content });
+  };
 
   const searchEmoji = (emoji: any) => {
-    const contentState = editorState.getCurrentContent()
-    const selectionState = editorState.getSelection()
+    const contentState = editorState.getCurrentContent();
+    const selectionState = editorState.getSelection();
     const newContentState = Modifier.insertText(
       contentState,
       selectionState,
-      emoji.native
-    )
+      emoji.native,
+    );
     const newEditorState = EditorState.push(
       editorState,
       newContentState,
-      'insert-characters'
-    )
-    setEditorState(newEditorState)
-    setShowEmojiPicker(false) // Close the emoji picker after selecting an emoji
-  }
+      "insert-characters",
+    );
+    setEditorState(newEditorState);
+    setShowEmojiPicker(false); // Close the emoji picker after selecting an emoji
+  };
 
   return (
     <div className={styles.createPostContainer}>
@@ -61,7 +61,7 @@ const CreatePost: React.FC = () => {
         <Form.Item
           label="文章标题"
           name="title"
-          rules={[{ required: true, message: '请输入文章标题！' }]}
+          rules={[{ required: true, message: "请输入文章标题！" }]}
         >
           <Input placeholder="请输入文章标题" />
         </Form.Item>
@@ -77,24 +77,24 @@ const CreatePost: React.FC = () => {
               placeholder="在这里输入文章内容..."
               toolbar={{
                 options: [
-                  'inline',
-                  'blockType',
-                  'fontSize',
-                  'list',
-                  'textAlign',
-                  'link',
+                  "inline",
+                  "blockType",
+                  "fontSize",
+                  "list",
+                  "textAlign",
+                  "link",
                 ],
                 inline: {
                   options: [
-                    'bold',
-                    'italic',
-                    'underline',
-                    'strikethrough',
-                    'monospace',
+                    "bold",
+                    "italic",
+                    "underline",
+                    "strikethrough",
+                    "monospace",
                   ],
                 },
                 fontSize: {
-                  options: ['10', '12', '14', '16', '18', '24', '36'],
+                  options: ["10", "12", "14", "16", "18", "24", "36"],
                 },
               }}
             />
@@ -109,7 +109,7 @@ const CreatePost: React.FC = () => {
 
             {showEmojiPicker && (
               <div
-                style={{ position: 'absolute', bottom: '50px', left: '50px' }}
+                style={{ position: "absolute", bottom: "50px", left: "50px" }}
               >
                 <EmojiPicker
                   onEmojiSelect={(emoji: any) => searchEmoji(emoji)}
@@ -130,7 +130,7 @@ const CreatePost: React.FC = () => {
         </Form.Item>
       </Form>
     </div>
-  )
-}
+  );
+};
 
-export default CreatePost
+export default CreatePost;

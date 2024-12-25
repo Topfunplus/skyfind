@@ -1,78 +1,81 @@
-import { Card, List, Space, Tag, Typography } from 'antd'
-import React from 'react'
-import { Link } from 'react-router-dom'
-import JSOutlined from '../../components/icons/JS'
-import { useAppSelector } from '../../hooks/redux'
-import './style.css'
+import { Card, List, Space, Tag, Typography } from "antd";
+import React from "react";
+import { Link } from "react-router-dom";
+import JSOutlined from "../../components/icons/JS";
+import PlanetOrbit from "../../components/three/Stars";
+import { useAppSelector } from "../../hooks/redux";
+import "./style.css";
 
-const { Paragraph } = Typography
+const { Paragraph } = Typography;
 
 const Home: React.FC = () => {
-  const { posts } = useAppSelector((state) => state.posts)
+  const { posts } = useAppSelector((state: any) => state.posts);
 
   // 模拟数据
   const mockPosts = [
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
 
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
     {
-      id: '1',
-      title: '示例文章1',
-      content: '这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...',
-      author: { username: '作者1' },
-      tags: ['React', 'TypeScript'],
+      id: "1",
+      title: "示例文章1",
+      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
+      author: { username: "作者1" },
+      tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
-  ]
+  ];
 
   return (
     <div className="home-container">
+      <PlanetOrbit />
+
       <div className="page-header">
         <h2 className="page-header-bigHeader">最新文章</h2>
         <Paragraph type="secondary">
@@ -89,7 +92,7 @@ const Home: React.FC = () => {
       <List
         grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
         dataSource={posts.length ? posts : mockPosts}
-        renderItem={(post) => (
+        renderItem={(post: any) => (
           <List.Item>
             <Card
               className="post-card"
@@ -101,13 +104,13 @@ const Home: React.FC = () => {
               }
               extra={
                 <span className="post-meta">
-                  作者: {post.author.username} |{' '}
+                  作者: {post.author.username} |{" "}
                   {new Date(post.createdAt).toLocaleDateString()}
                 </span>
               }
             >
               <Space size={[0, 8]} wrap className="post-tags">
-                {post.tags.map((tag) => (
+                {post.tags.map((tag: any) => (
                   <Tag key={tag} color="blue">
                     {tag}
                   </Tag>
@@ -118,7 +121,7 @@ const Home: React.FC = () => {
         )}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,7 +1,7 @@
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Layout from '../components/Layout/index'
-import { Chat } from '../pages/Chat'
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Layout from "../components/Layout/index";
+import { Chat } from "../pages/Chat";
 import {
   AdminDashboard,
   CreatePost,
@@ -10,11 +10,11 @@ import {
   PostDetail,
   Register,
   UserProfile,
-} from '../pages/index'
+} from "../pages/index";
 
 const Test = () => {
-  return <>test</>
-}
+  return <>test</>;
+};
 
 const AppRoutes: React.FC = () => {
   return (
@@ -35,7 +35,7 @@ const AppRoutes: React.FC = () => {
         </Routes>
       </BrowserRouter>
     </>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;

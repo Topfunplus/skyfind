@@ -1,86 +1,86 @@
-import { LoadingOutlined } from '@ant-design/icons'
-import { Button, Flex, List, message, Typography } from 'antd'
-import DOMPurify from 'dompurify'
-import hljs from 'highlight.js'
-import 'highlight.js/styles/github.min.css'
-import { marked } from 'marked'
-import React, { Fragment, useEffect, useRef, useState } from 'react'
-import { OllamaIcon } from '../../components/icons/ollama'
-import { OLLAMA_API_ADDRESS } from '../../http'
-import styles from './style.module.css'
+import { LoadingOutlined } from "@ant-design/icons";
+import { Button, Flex, List, message, Typography } from "antd";
+import DOMPurify from "dompurify";
+import hljs from "highlight.js";
+import "highlight.js/styles/github.min.css";
+import { marked } from "marked";
+import React, { Fragment, useEffect, useRef, useState } from "react";
+import { OllamaIcon } from "../../components/icons/ollama";
+import { OLLAMA_API_ADDRESS } from "../../http";
+import styles from "./style.module.css";
 export function Chat() {
-  const [userInput, setUserInput] = useState<string>('')
+  const [userInput, setUserInput] = useState<string>("");
   const [messages, setMessages] = useState<{ role: string; content: string }[]>(
-    []
-  )
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [selectedModel, setSelectedModel] = useState<string | null>(null)
-  const [showModelList, setShowModelList] = useState<boolean>(false)
-  const [availableModels, setAvailableModels] = useState<any>(null)
-  const [messageApi, contextHolder] = message.useMessage()
-  const messagesEndRef = useRef<HTMLDivElement | null>(null)
+    [],
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
+  const [showModelList, setShowModelList] = useState<boolean>(false);
+  const [availableModels, setAvailableModels] = useState<any>(null);
+  const [messageApi, contextHolder] = message.useMessage();
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   // color for the robot message
-  const robotMessageRef = useRef<HTMLDivElement | null>(null)
+  const robotMessageRef = useRef<HTMLDivElement | null>(null);
 
-  console.log('hljs', hljs)
+  console.log("hljs", hljs);
   // fetch models
   const fetchModels = async () => {
     try {
-      const response = await fetch(`${OLLAMA_API_ADDRESS}/tags`)
-      const data = await response.json()
-      setAvailableModels(data.models)
-      setShowModelList((pre) => !pre)
+      const response = await fetch(`${OLLAMA_API_ADDRESS}/tags`);
+      const data = await response.json();
+      setAvailableModels(data.models);
+      setShowModelList((pre) => !pre);
     } catch (error) {
-      console.error('Error fetching models:', error)
+      console.error("Error fetching models:", error);
     }
-  }
+  };
 
   useEffect(() => {
     if (availableModels) {
-      console.log('avaliable models :', availableModels)
+      console.log("avaliable models :", availableModels);
     }
 
     return () => {
-      console.log('cleanup')
-    }
-  }, [availableModels])
+      console.log("cleanup");
+    };
+  }, [availableModels]);
 
   useEffect(() => {
-    console.log('showModelList:', showModelList)
-  }, [showModelList])
+    console.log("showModelList:", showModelList);
+  }, [showModelList]);
 
   useEffect(() => {
     // 用hljs 对AI发送的消息进行代码着色
     if (robotMessageRef.current) {
-      const codeBlocks = robotMessageRef.current.querySelectorAll('code')
+      const codeBlocks = robotMessageRef.current.querySelectorAll("code");
       codeBlocks.forEach((block) => {
-        hljs.highlightBlock(block)
-      })
+        hljs.highlightBlock(block);
+      });
     }
-  }, [messages])
+  }, [messages]);
 
   const tryThisModel = (model: string) => {
-    setSelectedModel(model)
-    setShowModelList(false)
-  }
+    setSelectedModel(model);
+    setShowModelList(false);
+  };
 
   async function sendMessage() {
     if (!selectedModel) {
-      messageApi.error('请先选择模型')
-      return
+      messageApi.error("请先选择模型");
+      return;
     }
 
-    const newMessages = [...messages, { role: 'user', content: userInput }]
+    const newMessages = [...messages, { role: "user", content: userInput }];
     // 设置用户输入的消息
-    setMessages(newMessages)
-    setUserInput('')
-    setIsLoading(true)
+    setMessages(newMessages);
+    setUserInput("");
+    setIsLoading(true);
 
     try {
       const response = await fetch(`${OLLAMA_API_ADDRESS}/chat`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           model: selectedModel,
@@ -88,74 +88,74 @@ export function Chat() {
           stream: true,
           options: {},
         }),
-      })
+      });
 
       if (!response.ok) {
-        messageApi.error('AI服务出错')
+        messageApi.error("AI服务出错");
         setMessages((prevMessages) => {
-          const updatedMessages = [...prevMessages]
+          const updatedMessages = [...prevMessages];
           updatedMessages.push({
-            role: 'assistant',
-            content: 'ollama:服务出错',
-          })
-          return updatedMessages
-        })
-        setIsLoading(false)
-        return
+            role: "assistant",
+            content: "ollama:服务出错",
+          });
+          return updatedMessages;
+        });
+        setIsLoading(false);
+        return;
       }
 
-      const reader = response.body?.getReader()
-      const decoder = new TextDecoder()
-      let done = false
+      const reader = response.body?.getReader();
+      const decoder = new TextDecoder();
+      let done = false;
 
       while (!done) {
-        const { value, done: readerDone } = (await reader?.read()) || {}
+        const { value, done: readerDone } = (await reader?.read()) || {};
 
-        done = readerDone as boolean
-        const chunk = decoder.decode(value, { stream: true })
-        let jsonedChunk = chunk ? JSON.parse(chunk) : null
+        done = readerDone as boolean;
+        const chunk = decoder.decode(value, { stream: true });
+        let jsonedChunk = chunk ? JSON.parse(chunk) : null;
 
         if (chunk) {
           setMessages((prevMessages) => {
-            const updatedMessages = [...prevMessages]
+            const updatedMessages = [...prevMessages];
             if (
               updatedMessages.length > 0 &&
-              updatedMessages[updatedMessages.length - 1].role === 'assistant'
+              updatedMessages[updatedMessages.length - 1].role === "assistant"
             ) {
               updatedMessages[updatedMessages.length - 1] = {
-                role: 'assistant',
+                role: "assistant",
                 content:
                   updatedMessages[updatedMessages.length - 1].content +
                   jsonedChunk.message.content,
-              }
+              };
             } else {
               updatedMessages.push({
-                role: 'assistant',
+                role: "assistant",
                 content: jsonedChunk.message.content,
-              })
+              });
             }
-            return updatedMessages
-          })
+            return updatedMessages;
+          });
         }
       }
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching chat content:', error)
-      setIsLoading(false)
+      console.error("Error fetching chat content:", error);
+      setIsLoading(false);
     }
   }
 
   function renderMarkdown(content: string): string {
-    const markdown = marked(content) as string
-    const sanitized = DOMPurify.sanitize(markdown)
-    return sanitized ? sanitized : ''
+    const markdown = marked(content) as string;
+    const sanitized = DOMPurify.sanitize(markdown);
+    return sanitized ? sanitized : "";
   }
 
   useEffect(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [messages])
+  }, [messages]);
 
   return (
     <>
@@ -164,7 +164,7 @@ export function Chat() {
         <div className={styles.modelNameContainer}>
           <h2 className={styles.modelName}>
             <OllamaIcon />
-            Chat with {selectedModel ?? 'model'}
+            Chat with {selectedModel ?? "model"}
           </h2>
           <div className={styles.modelSelector}>
             <button
@@ -174,10 +174,10 @@ export function Chat() {
               }
             >
               {showModelList
-                ? '隐藏模型列表'
+                ? "隐藏模型列表"
                 : selectedModel
-                ? '重新选择'
-                : '选择模型'}
+                  ? "重新选择"
+                  : "选择模型"}
             </button>
           </div>
         </div>
@@ -185,10 +185,10 @@ export function Chat() {
           <Fragment>
             <List
               style={{
-                maxHeight: '300px',
-                overflowY: 'scroll',
-                maxWidth: '60%',
-                margin: '20px auto',
+                maxHeight: "300px",
+                overflowY: "scroll",
+                maxWidth: "60%",
+                margin: "20px auto",
               }}
               header={<div>本地模型列表</div>}
               bordered
@@ -232,12 +232,12 @@ export function Chat() {
             <div
               key={index}
               className={
-                msg.role === 'user'
+                msg.role === "user"
                   ? styles.userMessage
                   : styles.assistantMessage
               }
             >
-              {msg.role === 'user' ? (
+              {msg.role === "user" ? (
                 <>
                   <strong>You:</strong> {msg.content}
                 </>
@@ -276,5 +276,5 @@ export function Chat() {
         </div>
       </div>
     </>
-  )
+  );
 }

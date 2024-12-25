@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const AdminDashboard: React.FC = () => {
   return (
@@ -8,4 +8,4 @@ const AdminDashboard: React.FC = () => {
   );
 };
 
-export default AdminDashboard; 
+export default AdminDashboard;

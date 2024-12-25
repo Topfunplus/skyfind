@@ -10,7 +10,7 @@
 }
 h2.page-header-bigHeader {
   font-size: large;
-  color: #666666;
+  color: #fff !important;
   font-weight: bold;
 }
 
@@ -24,6 +24,7 @@ h2.page-header-bigHeader {
 .page-header-intro-content {
   font-weight: bold;
   font-size: medium;
+  color: #e6f4ff !important;
 }
 .page-header h2 {
   font-size: 28px;
@@ -39,7 +40,8 @@ h2.page-header-bigHeader {
 .post-card {
   width: 950px;
   margin-bottom: 8px;
-  border: none;
+  border: 1px solid #d9d9d9;
+  border-radius: 8px;
   background: #fafafa;
   transition: all 0.3s ease;
 }
