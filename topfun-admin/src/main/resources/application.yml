@@ -7,7 +7,7 @@ topfun:
   # 版权年份
   copyrightYear: 2024
   # 文件路径 示例（ Windows配置D:/topfun/uploadPath，Linux配置 /home/topfun/uploadPath）
-  profile: /tops/assets
+  profile: D:\\topfun\\uploadPath
   # 获取ip地址开关
   addressEnabled: false
   # 验证码类型 math 数字计算 char 字符验证
@@ -16,7 +16,7 @@ topfun:
 # 开发环境配置
 server:
   # 服务器的HTTP端口，默认为8080
-  port: 5200
+  port: 7700
   servlet:
     # 应用的访问路径
     context-path: /
