@@ -2,6 +2,7 @@ import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, message, Tabs, TabsProps } from "antd";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginApi from "../../api/login/index";
 import { useAppDispatch } from "../../hooks/redux";
 import { setUser } from "../../store/slices/authSlice";
 import "./style.css";
@@ -12,6 +13,8 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogin = (values: { username: string; password: string }) => {
+    LoginApi.log(`login options: ${values.username}${values.password} `);
+
     // 这里模拟登录成功
     dispatch(
       setUser({

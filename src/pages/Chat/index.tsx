@@ -22,7 +22,6 @@ export function Chat() {
   // color for the robot message
   const robotMessageRef = useRef<HTMLDivElement | null>(null);
 
-  console.log("hljs", hljs);
   // fetch models
   const fetchModels = async () => {
     try {
