@@ -99,6 +99,7 @@ module.exports = function (proxy, allowedHost) {
     // proxy,
     // 自定义proxy
     proxy: [
+      // 权限认证服务
       {
         context: ["/auth"],
         target: "http://localhost:7000",
@@ -117,6 +118,16 @@ module.exports = function (proxy, allowedHost) {
         pathRewrite: {
           // '^/api': '',
           "^/ollama": "",
+        },
+      },
+      // 后端java服务
+      {
+        context: ["/back"],
+        target: "http://172.20.193.187:7700",
+        changeOrigin: true,
+        secure: false,
+        pathRewrite: {
+          "^/back": "",
         },
       },
     ],

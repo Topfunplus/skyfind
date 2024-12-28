@@ -1,15 +1,17 @@
 import { Card, List, Space, Tag, Typography } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
+import { ArticleApi } from "../../api/article/index";
 import JSOutlined from "../../components/icons/JS";
 import PlanetOrbit from "../../components/three/Stars";
-import { useAppSelector } from "../../hooks/redux";
+// import { useAppSelector } from "../../hooks/redux";
 import "./style.css";
 
 const { Paragraph } = Typography;
 
 const Home: React.FC = () => {
-  const { posts } = useAppSelector((state: any) => state.posts);
+  // const { posts } = useAppSelector((state: any) => state.posts);
+  const [articleList, setArticleList] = React.useState<any[]>([]);
 
   // 模拟数据
   const mockPosts = [
@@ -21,56 +23,18 @@ const Home: React.FC = () => {
       tags: ["React", "TypeScript"],
       createdAt: new Date(),
     },
-    {
-      id: "1",
-      title: "示例文章1",
-      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
-      author: { username: "作者1" },
-      tags: ["React", "TypeScript"],
-      createdAt: new Date(),
-    },
-    {
-      id: "1",
-      title: "示例文章1",
-      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
-      author: { username: "作者1" },
-      tags: ["React", "TypeScript"],
-      createdAt: new Date(),
-    },
-    {
-      id: "1",
-      title: "示例文章1",
-      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
-      author: { username: "作者1" },
-      tags: ["React", "TypeScript"],
-      createdAt: new Date(),
-    },
-
-    {
-      id: "1",
-      title: "示例文章1",
-      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
-      author: { username: "作者1" },
-      tags: ["React", "TypeScript"],
-      createdAt: new Date(),
-    },
-    {
-      id: "1",
-      title: "示例文章1",
-      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
-      author: { username: "作者1" },
-      tags: ["React", "TypeScript"],
-      createdAt: new Date(),
-    },
-    {
-      id: "1",
-      title: "示例文章1",
-      content: "这是一篇示例文章的内容，讲述了React和TypeScript的结合使用...",
-      author: { username: "作者1" },
-      tags: ["React", "TypeScript"],
-      createdAt: new Date(),
-    },
   ];
+
+  // 获取文章列表
+  function getArticleList(params: any) {
+    return ArticleApi.getArticles(params);
+  }
+
+  React.useEffect(() => {
+    getArticleList({}).then((res: any) => {
+      setArticleList(res.data);
+    });
+  }, []);
 
   return (
     <div className="home-container">
@@ -91,7 +55,7 @@ const Home: React.FC = () => {
       </div>
       <List
         grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
-        dataSource={posts.length ? posts : mockPosts}
+        dataSource={articleList.length ? articleList : mockPosts}
         renderItem={(post: any) => (
           <List.Item>
             <Card

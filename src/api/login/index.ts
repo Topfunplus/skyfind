@@ -1,4 +1,4 @@
-import { instance } from "../../http/index";
+import { ApiService } from "../../http/index";
 import BaseApi from "../common/index";
 
 type LoginBody = {
@@ -9,11 +9,18 @@ type LoginBody = {
 };
 
 export default class LoginApi extends BaseApi {
-  Login(data: LoginBody) {
-    return instance.request({
+  static Login(data: LoginBody) {
+    return ApiService.request({
       url: "/login",
-      method: "POST",
+      method: "post",
       data: data,
+    });
+  }
+
+  static getCodeImg() {
+    return ApiService.request({
+      url: "/captchaImage",
+      method: "get",
     });
   }
 }
