@@ -2,15 +2,17 @@ import { UserOutlined } from "@ant-design/icons";
 import { CopilotKit } from "@copilotkit/react-core";
 import { CopilotSidebar } from "@copilotkit/react-ui";
 import { Layout as AntLayout, Button, Menu } from "antd";
-import React from "react";
+import React, { Fragment } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../hooks/redux";
 import { RootState } from "../../store";
 import "./style.css";
+
 const { Header, Content, Footer } = AntLayout;
 
 const Layout: React.FC = () => {
   const { user } = useAppSelector((state: typeof RootState) => state.auth);
+  const token = localStorage.getItem("token");
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const Layout: React.FC = () => {
       key: "chat",
       label: <Link to="/chat">聊天</Link>,
     },
-    ...(user
+    ...(token
       ? [
           {
             key: "create-post",
@@ -67,7 +69,7 @@ const Layout: React.FC = () => {
               items={menuItems}
               className="menu"
             />
-            {!user && (
+            {!token && (
               <Button
                 type="text"
                 icon={<UserOutlined />}
@@ -78,13 +80,15 @@ const Layout: React.FC = () => {
               </Button>
             )}
           </Header>
-          {/* 内容 */}
-          <Content className="site-content">
-            <div className="site-content-wrapper">
-              {/* 占位符  */}
-              <Outlet />
-            </div>
-          </Content>
+          <Fragment>
+            {/* 内容 */}
+            <Content className="site-content">
+              <div className="site-content-wrapper">
+                {/* 占位符  */}
+                <Outlet />
+              </div>
+            </Content>
+          </Fragment>
           <Footer className="footer">
             穹顶寻宝 ©{new Date().getFullYear()}
           </Footer>

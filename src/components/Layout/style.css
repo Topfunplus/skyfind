@@ -143,3 +143,11 @@
 .login-btn:hover {
   color: #1677ff !important;
 }
+.not-logged-in {
+  margin-top: 100px;
+  height: 600px;
+  background-color: red;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

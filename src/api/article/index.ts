@@ -5,7 +5,7 @@ const BASE_URL = "/system/article";
 export class ArticleApi {
   static getArticles(params?: Record<string, any>) {
     return ApiService.request({
-      url: BASE_URL,
+      url: `${BASE_URL}/list`,
       method: "get",
       params: params || {},
     });

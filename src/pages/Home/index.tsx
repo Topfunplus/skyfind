@@ -1,18 +1,41 @@
 import { Card, List, Space, Tag, Typography } from "antd";
-import React from "react";
+import React, { Fragment, useRef } from "react";
 import { Link } from "react-router-dom";
 import { ArticleApi } from "../../api/article/index";
 import JSOutlined from "../../components/icons/JS";
 import PlanetOrbit from "../../components/three/Stars";
 // import { useAppSelector } from "../../hooks/redux";
 import "./style.css";
-
+import "./unlogin.css";
 const { Paragraph } = Typography;
+
+function unLogined() {
+  return (
+    <>
+      <div className="container">
+        <div className="login-prompt">
+          <div className="lock-icon">
+            <i className="fas fa-lock"></i>
+          </div>
+          <h1>需要登录</h1>
+          <p>请登录后查看此内容</p>
+          <div className="buttons">
+            <Link to="/login" className="btn login-btn">
+              登录
+            </Link>
+            {/* <Link className="btn register-btn">注册</Link> */}
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
 
 const Home: React.FC = () => {
   // const { posts } = useAppSelector((state: any) => state.posts);
   const [articleList, setArticleList] = React.useState<any[]>([]);
 
+  const loginRef = useRef<string>(localStorage.getItem("token") || "");
   // 模拟数据
   const mockPosts = [
     {
@@ -36,55 +59,59 @@ const Home: React.FC = () => {
     });
   }, []);
 
-  return (
-    <div className="home-container">
-      <PlanetOrbit />
+  return loginRef.current ? (
+    <Fragment>
+      <div className="home-container">
+        <PlanetOrbit />
 
-      <div className="page-header">
-        <h2 className="page-header-bigHeader">最新文章</h2>
-        <Paragraph type="secondary">
-          <div className="page-header-intro">
-            <JSOutlined />
-            <div>
-              <span className="page-header-intro-content">
-                发现有趣的技术文章，分享你的编程见解
-              </span>
-            </div>
-          </div>
-        </Paragraph>
-      </div>
-      <List
-        grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
-        dataSource={articleList.length ? articleList : mockPosts}
-        renderItem={(post: any) => (
-          <List.Item>
-            <Card
-              className="post-card"
-              hoverable
-              title={
-                <Link to={`/posts/${post.id}`} className="post-title">
-                  {post.title}
-                </Link>
-              }
-              extra={
-                <span className="post-meta">
-                  作者: {post.author.username} |{" "}
-                  {new Date(post.createdAt).toLocaleDateString()}
+        <div className="page-header">
+          <h2 className="page-header-bigHeader">最新文章</h2>
+          <Paragraph type="secondary">
+            <div className="page-header-intro">
+              <JSOutlined />
+              <div>
+                <span className="page-header-intro-content">
+                  发现有趣的技术文章，分享你的编程见解
                 </span>
-              }
-            >
-              <Space size={[0, 8]} wrap className="post-tags">
-                {post.tags.map((tag: any) => (
-                  <Tag key={tag} color="blue">
-                    {tag}
-                  </Tag>
-                ))}
-              </Space>
-            </Card>
-          </List.Item>
-        )}
-      />
-    </div>
+              </div>
+            </div>
+          </Paragraph>
+        </div>
+        <List
+          grid={{ gutter: 16, xs: 1, sm: 1, md: 1, lg: 1, xl: 1, xxl: 1 }}
+          dataSource={articleList.length ? articleList : mockPosts}
+          renderItem={(post: any) => (
+            <List.Item>
+              <Card
+                className="post-card"
+                hoverable
+                title={
+                  <Link to={`/posts/${post.id}`} className="post-title">
+                    {post.title}
+                  </Link>
+                }
+                extra={
+                  <span className="post-meta">
+                    作者: {post.author.username} |{" "}
+                    {new Date(post.createdAt).toLocaleDateString()}
+                  </span>
+                }
+              >
+                <Space size={[0, 8]} wrap className="post-tags">
+                  {post.tags.map((tag: any) => (
+                    <Tag key={tag} color="blue">
+                      {tag}
+                    </Tag>
+                  ))}
+                </Space>
+              </Card>
+            </List.Item>
+          )}
+        />
+      </div>
+    </Fragment>
+  ) : (
+    unLogined()
   );
 };
 

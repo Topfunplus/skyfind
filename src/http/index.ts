@@ -23,6 +23,7 @@ export interface AjaxResult {
     img?: string;
     uuid?: string;
     captchaEnabled?: string;
+    token?: string;
   };
   headers: AxiosHeaders;
   request: any;
@@ -61,19 +62,24 @@ instance.interceptors.response.use(
   (response: any) => {
     if (response.data.code === 200) {
       return response;
-    } else if (response.data.code === 401) {
-      message.error(`系统未授权，请先登录!`);
-      return Promise.reject(response.data.msg);
-    } else if (response.data.code === 500) {
-      message.error(`服务器错误` + response.data.msg);
-      return Promise.reject(response.data.msg);
     } else {
-      message.error(`未知错误` + response.data.msg);
+      message.error(`错误: ${response.data.msg}`);
       return Promise.reject(response.data.msg);
     }
   },
   (error: any) => {
-    message.error("This is a normal message");
+    if (error.response) {
+      // 请求已发出，但服务器响应的状态码不在 2xx 范围内
+      message.error(
+        `服务器错误: ${error.response.status} - ${error.response.data.msg}`,
+      );
+    } else if (error.request) {
+      // 请求已发出但没有收到响应
+      message.error("请求超时或网络错误");
+    } else {
+      // 其他错误
+      message.error(`请求错误: ${error.message}`);
+    }
     return Promise.reject(error);
   },
 );

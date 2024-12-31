@@ -27,17 +27,18 @@ const Login: React.FC = () => {
   const [imgSrc, setImgSrc] = useState<string>("");
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  let uuid: string = "";
+  const uuidRef = React.useRef<string>("");
 
-  function getCode() {
+  const getCode = React.useCallback(() => {
     LoginApi.getCodeImg().then((res: AjaxResult) => {
       setImgSrc(`data:image/gif;base64,` + res.data.img);
-      uuid = res.data.uuid as string;
+      uuidRef.current = res.data.uuid as string;
     });
-  }
+  }, []);
+
   useEffect(() => {
     getCode();
-  }, []);
+  }, [getCode]);
 
   const handleLogin = (values: {
     username: string;
@@ -50,10 +51,10 @@ const Login: React.FC = () => {
       username: values.username,
       password: values.password,
       code: values.code,
-      uuid: uuid,
+      uuid: uuidRef.current,
     };
     LoginApi.Login(LoginBody).then((res: AjaxResult) => {
-      console.log(res);
+      localStorage.setItem("token", res.data.token as string);
       dispatch(
         setUser({
           id: "1",
@@ -111,7 +112,7 @@ const Login: React.FC = () => {
 
               <div>
                 看不清？
-                <a href="#" onClick={getCode}>
+                <a href="about_blank" onClick={getCode}>
                   换一张
                 </a>
               </div>

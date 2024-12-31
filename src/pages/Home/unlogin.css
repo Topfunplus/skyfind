@@ -1,0 +1,65 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css");
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  margin: 120px auto;
+}
+
+.login-prompt {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.lock-icon {
+  font-size: 48px;
+  color: #3498db;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #2c3e50;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+p {
+  color: #7f8c8d;
+  margin-bottom: 30px;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btn {
+  padding: 12px 24px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.login-btn {
+  background-color: #3498db;
+  color: white;
+}
+
+.login-btn:hover {
+  background-color: #c1dcee;
+}
+
+.register-btn {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+.register-btn:hover {
+  background-color: #bdc3c7;
+}
